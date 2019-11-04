@@ -1,0 +1,12 @@
+
+  Org${ORG}:
+    mspid: Org${ORG}MSP
+    peers:
+    - peer0.org${ORG}.example.com
+    - peer1.org${ORG}.example.com
+    certificateAuthorities:
+    - ca.org${ORG}.example.com
+    adminPrivateKey:
+      path: crypto-config/peerOrganizations/org${ORG}.example.com/users/Admin@org${ORG}.example.com/msp/keystore/${ADMIN_PRIVATE_KEY}
+    signedCert:
+      path: crypto-config/peerOrganizations/org${ORG}.example.com/users/Admin@org${ORG}.example.com/msp/signcerts/Admin@org${ORG}.example.com-cert.pem

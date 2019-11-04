@@ -1,0 +1,84 @@
+---
+name: first-network-org${ORG}
+version: 1.0.0
+client:
+  organization: Org${ORG}
+  connection:
+    timeout:
+      peer:
+        endorser: '300'
+channels:
+    mychannel:
+        orderers:
+        - orderer.example.com
+        peers:
+          peer0.org1.example.com:
+            endorsingPeer: true
+            chaincodeQuery: true
+            ledgerQuery: true
+            eventSource: true
+          peer1.org1.example.com:
+            endorsingPeer: false
+            chaincodeQuery: true
+            ledgerQuery: true
+            eventSource: false
+          peer0.org2.example.com:
+            endorsingPeer: true
+            chaincodeQuery: true
+            ledgerQuery: true
+            eventSource: true
+          peer1.org2.example.com:
+            endorsingPeer: false
+            chaincodeQuery: true
+            ledgerQuery: true
+            eventSource: false
+          chaincodes:
+          - fabcar:v0
+organizations:
+  Org${ORG}:
+    mspid: Org${ORG}MSP
+    peers:
+    - peer0.org${ORG}.example.com
+    - peer1.org${ORG}.example.com
+    certificateAuthorities:
+    - ca.org${ORG}.example.com
+    adminPrivateKey:
+      path: crypto-config/peerOrganizations/org${ORG}.example.com/users/Admin@org${ORG}.example.com/msp/keystore/${ADMIN_PRIVATE_KEY}
+    signedCert:
+      path: crypto-config/peerOrganizations/org${ORG}.example.com/users/Admin@org${ORG}.example.com/msp/signcerts/Admin@org${ORG}.example.com-cert.pem
+orderers:
+  orderer.example.com:
+    url: grpcs://localhost:7050
+    grpcOptions:
+      ssl-target-name-override: orderer.example.com
+    tlsCACerts:
+      path: crypto-config/ordererOrganizations/example.com/orderers/orderer.example.com/tls/ca.crt
+peers:
+  peer0.org${ORG}.example.com:
+    url: grpcs://localhost:${P0PORT}
+    tlsCACerts:
+      pem: |
+        ${PEERPEM}
+    grpcOptions:
+      ssl-target-name-override: peer0.org${ORG}.example.com
+      hostnameOverride: peer0.org${ORG}.example.com
+  peer1.org${ORG}.example.com:
+    url: grpcs://localhost:${P1PORT}
+    tlsCACerts:
+      pem: |
+        ${PEERPEM}
+    grpcOptions:
+      ssl-target-name-override: peer1.org${ORG}.example.com
+      hostnameOverride: peer1.org${ORG}.example.com
+certificateAuthorities:
+  ca.org${ORG}.example.com:
+    url: https://localhost:${CAPORT}
+    httpOptions:
+      verify: false
+    tlsCACerts:
+      pem: |
+        ${CAPEM}
+    registrar:
+      - enrollId: admin
+      - enrollSecret: adminpw
+    caName: ca-org${ORG}

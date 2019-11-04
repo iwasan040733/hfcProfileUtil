@@ -1,0 +1,12 @@
+
+  ca.org${ORG}.example.com:
+    url: https://localhost:${CAPORT}
+    httpOptions:
+      verify: false
+    tlsCACerts:
+      pem: |
+        ${CAPEM}
+    registrar:
+      - enrollId: admin
+      - enrollSecret: adminpw
+    caName: ca-org${ORG}
